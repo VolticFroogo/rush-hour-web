@@ -1,0 +1,6 @@
+.CarSlot {
+    height: 3vw;
+    margin-top: 15px;
+    border-radius: 3px;
+    background-color: var(--tile-colour);
+}

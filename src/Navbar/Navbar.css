@@ -1,0 +1,14 @@
+.Navbar {
+    width: calc(100vw - 100px);
+    padding: 30px 50px;
+}
+
+.Navbar .Title {
+    font-size: 35px;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.Navbar .Credit {
+    width: fit-content;
+}

@@ -1,0 +1,45 @@
+#Board {
+    float: left;
+    
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--tile-colour);
+    border-radius: 5px;
+
+    width: fit-content;
+    padding: 2vw;
+    margin: 30px 50px 30px 0;
+}
+
+#Board .Title {
+    position: absolute;
+    background-color: var(--background);
+    font-size: 20px;
+    transform: translate(30px, calc(-2vw - 12px));
+    padding: 0 10px;
+}
+
+.Column {
+    display: inline-block;
+}
+
+.Tile {
+    width: 4vw;
+    height: 4vw;
+    margin: 10px 5px;
+    border-radius: 3px;
+    background-color: var(--tile-colour);
+}
+
+.Tile .icon {
+    position: absolute;
+    transform: translate(calc(4vw / 4), calc(4vw / 8));
+}
+
+.TileBorderBlocker {
+    width: 3px;
+    height: calc(3vw);
+    transform: translate(calc(6vw + 9px), -4vw);
+    background-color: var(--background);
+    position: absolute;
+}

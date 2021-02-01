@@ -1,0 +1,11 @@
+:root {
+    --background: #12181b;
+
+    --text-normal: #E2E8EF;
+    --text-low: #b2becd;
+    --text-very-low: #6e7884;
+    --text-link: #b6dff1;
+    --text-link-hover: #d1edf8;
+
+    --tile-colour: #1E2427;
+}

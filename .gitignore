@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.eslintcache
+
+# IntelliJ IDEA (IDE) configuration
+.idea/
