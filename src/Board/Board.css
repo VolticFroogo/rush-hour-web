@@ -38,8 +38,8 @@
 
 .TileBorderBlocker {
     width: 3px;
-    height: calc(3vw);
-    transform: translate(calc(6vw + 9px), -4vw);
+    height: 4vw;
+    transform: translate(calc(6vw + 9px), calc(-4vw - 10px));
     background-color: var(--background);
     position: absolute;
 }

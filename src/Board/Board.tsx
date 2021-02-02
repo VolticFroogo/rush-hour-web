@@ -5,23 +5,27 @@ class Board extends React.Component {
     static instance: Board;
 
     myRef: React.RefObject<HTMLDivElement>;
+    columnsRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: {} | Readonly<{}>) {
         super(props);
         Board.instance = this;
         this.myRef = React.createRef();
+        this.columnsRef = React.createRef();
     }
 
     render() {
         return (
             <div id="Board" ref={this.myRef}>
                 <div className="Title">Board</div>
-                <Column/>
-                <Column/>
-                <Column/>
-                <Column/>
-                <Column/>
-                <Column exit={true}/>
+                <div ref={this.columnsRef}>
+                    <Column/>
+                    <Column/>
+                    <Column/>
+                    <Column/>
+                    <Column/>
+                    <Column exit={true}/>
+                </div>
             </div>
         );
     }

@@ -5,3 +5,7 @@
     position: absolute;
     z-index: 1;
 }
+
+.Car.Vertical {
+    transform: rotate(-90deg);
+}
