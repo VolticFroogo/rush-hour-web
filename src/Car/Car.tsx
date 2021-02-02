@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Car.css';
 import CarProps from './CarProps';
 import Draggable, { ControlPosition, DraggableData, DraggableEvent } from 'react-draggable';
