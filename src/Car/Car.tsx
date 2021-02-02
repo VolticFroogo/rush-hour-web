@@ -167,7 +167,7 @@ class Car extends React.Component<CarProps, CarState> {
             position: {
                 x: this.state.vertical
                     ? tileRect.x - parentRect.x - vw * 1.5
-                    : tileRect.x - parentRect.x + vw - 5,
+                    : tileRect.x - parentRect.x + vw * 0.5 + 5,
                 y: this.state.vertical
                     ? tileRect.y - parentRect.y - vw * 1.5 - 5
                     : tileRect.y - parentRect.y + vw / 2,
