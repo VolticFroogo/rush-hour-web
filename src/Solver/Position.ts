@@ -22,7 +22,7 @@ class Position {
 
     public setup(carOrientations: Uint8Array) {
         for (let i = 0; i < 16; i++) {
-            const pos = this.cars.shiftRight(i * 4).and(0xF).toNumber();
+            const pos = this.cars.shiftRight(i * 3).and(0x7).toNumber();
 
             // If the car is off the grid, skip.
             // This is an error check, but also allows for cars to be manually skipped.
@@ -40,7 +40,7 @@ class Position {
 
     public step(game: Game): Position | null {
         for (let i = 0; i < 16; i++) {
-            const pos = this.cars.shiftRight(i * 4).and(0xF).toNumber();
+            const pos = this.cars.shiftRight(i * 3).and(0x7).toNumber();
 
             // If the car is off the grid, skip.
             if (pos >= 6)
@@ -59,7 +59,7 @@ class Position {
             const width = i < 12 ? 1 : 2;
 
             for (let j = pos + 1; j < 6 - width; j++) {
-                const result = this.check(game, pos, game.carOrientations[i], 0, i, j);
+                const result = this.check(game, pos, game.carOrientations[i], width, i, j);
                 if (result.shouldBreak)
                     break;
 
@@ -77,14 +77,14 @@ class Position {
             return {shouldBreak: true};
 
         // Get the new car position.
-        const cars = this.cars.and(new Long(0xF).shiftLeft(i * 4).not()).or(new Long(j).shiftLeft(i * 4));
+        const cars = this.cars.and(new Long(0x7).shiftLeft(i * 3).not()).or(new Long(j).shiftLeft(i * 3));
 
         // If we have already computed this position before, skip.
-        if (game.seen.has(cars))
+        if (game.seen.has(cars.toNumber()))
             return {shouldBreak: false};
 
         // Add this position to seen.
-        game.seen.add(cars);
+        game.seen.add(cars.toNumber());
 
         const history = new Uint8Array(this.history.length + 1);
         for (let k = 0; k < this.history.length; k++)
@@ -124,7 +124,7 @@ class Position {
     }
 
     private isSolved(): boolean {
-        for (let i = (this.cars.and(0xF).toNumber()) + 2; i < 6; i++)
+        for (let i = (this.cars.and(0x7).toNumber()) + 2; i < 6; i++)
             if (this.bitmap.and(new Long(1).shiftLeft(i + 6 * 3)).notEquals(0))
                 return false;
 

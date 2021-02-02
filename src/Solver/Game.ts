@@ -4,7 +4,7 @@ import Long from 'long';
 
 class Game {
     carOrientations: Uint8Array;
-    seen: Set<Long>;
+    seen: Set<number>;
     positions: Position[];
 
     constructor() {
@@ -15,21 +15,21 @@ class Game {
             const car = Car.cars[i * 2 + 1];
 
             if (car.boardPos.x === -1 || car.boardPos.y === -1) {
-                cars = cars.or(new Long(0x7).shiftLeft(i * 4));
+                cars = cars.or(new Long(0x7).shiftLeft(i * 3));
                 continue;
             }
 
             const inverseY = Math.abs(car.boardPos.y - 5);
 
-            cars = cars.or(new Long(car.state.vertical ? inverseY : car.boardPos.x).shiftLeft(i * 4));
+            cars = cars.or(new Long(car.state.vertical ? inverseY : car.boardPos.x).shiftLeft(i * 3));
 
             this.carOrientations[i] =
                 (car.state.vertical ? 0x8 : 0) |
                 (car.state.vertical ? car.boardPos.x : inverseY);
         }
 
-        this.seen = new Set<Long>();
-        this.seen.add(cars);
+        this.seen = new Set<number>();
+        this.seen.add(cars.toNumber());
 
         this.positions = [new Position(cars)];
         this.positions[0].setup(this.carOrientations);
