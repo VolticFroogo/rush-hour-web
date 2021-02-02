@@ -16,7 +16,7 @@ class Board extends React.Component {
 
     render() {
         return (
-            <div id="Board" ref={this.myRef}>
+            <section id="Board" ref={this.myRef}>
                 <div className="Title">Board</div>
                 <div ref={this.columnsRef}>
                     <Column/>
@@ -26,7 +26,7 @@ class Board extends React.Component {
                     <Column/>
                     <Column exit={true}/>
                 </div>
-            </div>
+            </section>
         );
     }
 }

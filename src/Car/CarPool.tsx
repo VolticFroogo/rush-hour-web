@@ -4,7 +4,7 @@ import CarSlot from './CarSlot';
 
 function CarPool() {
     return (
-        <div className="CarPool">
+        <section className="CarPool">
             <div className="Title">Car park</div>
             <div className="DoubleWidth">
                 <div>
@@ -30,7 +30,7 @@ function CarPool() {
                 <CarSlot colour="#00FF00" truck={true}/>
                 <CarSlot colour="#00FF00" truck={true}/>
             </div>
-        </div>
+        </section>
     );
 }
 
