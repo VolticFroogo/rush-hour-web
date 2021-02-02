@@ -161,6 +161,8 @@ class Car extends React.Component<CarProps, CarState> {
         const tileRect = tileEl.getBoundingClientRect();
         const parentRect = parentEl.getBoundingClientRect();
 
+        console.log(x, y);
+
         this.setState({
             position: {
                 x: this.state.vertical
