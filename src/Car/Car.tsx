@@ -10,6 +10,12 @@ class CarState {
 }
 
 class Car extends React.Component<CarProps, CarState> {
+    myRef: React.RefObject<HTMLDivElement>;
+    boardPos: {
+        x: number,
+        y: number,
+    };
+
     constructor(props: CarProps) {
         super(props);
 
@@ -18,8 +24,16 @@ class Car extends React.Component<CarProps, CarState> {
                 x: 0,
                 y: 0,
             },
-            vertical: false
+            vertical: false,
         };
+
+        this.myRef = React.createRef();
+        this.boardPos = {
+            x: -1,
+            y: -1,
+        };
+
+        window.addEventListener('resize', () => this.onWindowResize());
     }
 
     render() {
@@ -35,7 +49,7 @@ class Car extends React.Component<CarProps, CarState> {
                 onDrag={(e: DraggableEvent, position: ControlPosition) => this.onDrag(e, position)}
             >
                 <div>
-                    <div className={"Car" + (this.state.vertical ? " Vertical" : "")} style={carStyles} onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => this.onKeyDown(e)} tabIndex={0}/>
+                    <div className={"Car" + (this.state.vertical ? " Vertical" : "")} style={carStyles} onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => this.onKeyDown(e)} tabIndex={0} ref={this.myRef}/>
                 </div>
             </Draggable>
         );
@@ -74,7 +88,7 @@ class Car extends React.Component<CarProps, CarState> {
             carY >= boardRect.top &&
             carY <= boardRect.bottom
         ) {
-            this.moveOnBoard(carX, carY, data, vw);
+            this.moveOnBoard(carX, carY);
         } else {
             this.resetPosition();
         }
@@ -90,7 +104,14 @@ class Car extends React.Component<CarProps, CarState> {
         });
     }
 
+    onWindowResize() {
+        this.updatePosition();
+    }
+
     resetPosition() {
+        this.boardPos.x = 0;
+        this.boardPos.y = 0;
+
         this.setState({
             position: {
                 x: 0,
@@ -100,68 +121,60 @@ class Car extends React.Component<CarProps, CarState> {
         });
     }
 
-    moveOnBoard(carX: number, carY: number, data: DraggableData, vw: number) {
+    moveOnBoard(carX: number, carY: number) {
         if (Board.instance.columnsRef.current === null)
             return;
 
         let nearest = Infinity;
-        let column: HTMLElement | undefined = undefined;
         let x: number = 0;
 
         let i = 0;
         Board.instance.columnsRef.current.childNodes.forEach(node => {
-            const nodeEl = node as HTMLElement;
-
-            const rect = nodeEl.getBoundingClientRect();
+            const rect = (node as HTMLElement).getBoundingClientRect();
             const delta = Math.abs((rect.left + rect.right) / 2 - carX);
+
             if (delta < nearest) {
                 x = i;
                 nearest = delta;
-                column = nodeEl;
             }
 
             i++;
         });
 
-        if (column === undefined) {
-            this.resetPosition();
-            return;
-        }
-
-        const columnEl = column as HTMLElement;
-
         nearest = Infinity;
-        let tile: HTMLElement | undefined = undefined;
         let y: number = 0;
 
         i = 0;
-        columnEl.childNodes.forEach(node => {
-            const nodeEl = node as HTMLElement;
-
-            const rect = nodeEl.getBoundingClientRect();
+        (Board.instance.columnsRef.current.firstChild as HTMLElement).childNodes.forEach(node => {
+            const rect = (node as HTMLElement).getBoundingClientRect();
             const delta = Math.abs((rect.top + rect.bottom) / 2 - carY);
+
             if (delta < nearest) {
                 y = i;
                 nearest = delta;
-                tile = nodeEl;
             }
 
             i++;
         });
 
-        if (tile === undefined) {
-            this.resetPosition();
+        this.boardPos.x = x;
+        this.boardPos.y = y;
+        this.updatePosition();
+    }
+
+    updatePosition() {
+        if (this.myRef.current === null)
             return;
-        }
 
-        const tileEl = tile as HTMLElement;
+        if (this.boardPos.x === -1 || this.boardPos.y === -1)
+            return;
 
-        const parentEl = data.node.parentElement as HTMLElement;
+        const column = (Board.instance.columnsRef.current as HTMLElement).childNodes.item(this.boardPos.x);
+        const tile = column.childNodes.item(this.boardPos.y);
+        const tileRect = (tile as HTMLElement).getBoundingClientRect();
+        const parentRect = ((this.myRef.current.parentElement as HTMLElement).parentElement as HTMLElement).getBoundingClientRect();
 
-        const tileRect = tileEl.getBoundingClientRect();
-        const parentRect = parentEl.getBoundingClientRect();
-
-        console.log(x, y);
+        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 100;
 
         this.setState({
             position: {
