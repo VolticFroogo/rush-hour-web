@@ -55,8 +55,6 @@ class Car extends React.Component<CarProps, CarState> {
         const carX = carRect.left + vw * 2;
         const carY = (carRect.top + carRect.bottom) / 2;
 
-        console.log(carX, carY);
-
         if (
             carX >= boardRect.left &&
             carX <= boardRect.right &&
