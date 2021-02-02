@@ -109,8 +109,8 @@ class Car extends React.Component<CarProps, CarState> {
     }
 
     resetPosition() {
-        this.boardPos.x = 0;
-        this.boardPos.y = 0;
+        this.boardPos.x = -1;
+        this.boardPos.y = -1;
 
         this.setState({
             position: {
