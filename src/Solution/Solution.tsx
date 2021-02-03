@@ -2,19 +2,35 @@ import React from 'react';
 import './Solution.css';
 import Game from '../Solver/Game';
 import Position from '../Solver/Position';
+import Car from '../Car/Car';
+import Long from 'long';
 
 class SolutionState {
     game: Game | undefined;
+    start: Long | undefined;
     solution: Position | null | undefined;
+    fakeCarTruck: boolean = false;
+    fakeCarColour: string = "#000000";
+    fakeCarVertical: boolean = false;
+    fakeCarPos?: {x: number, y: number};
 }
 
 class Solution extends React.Component<any, SolutionState> {
+    static instance: Solution;
+
     constructor(props: any) {
         super(props);
 
+        Solution.instance = this;
+
         this.state = {
             game: undefined,
+            start: undefined,
             solution: undefined,
+            fakeCarTruck: false,
+            fakeCarColour: "#000000",
+            fakeCarVertical: false,
+            fakeCarPos: {x: -1, y: -1},
         }
     }
 
@@ -22,14 +38,14 @@ class Solution extends React.Component<any, SolutionState> {
         let steps: JSX.Element[] = [];
 
         if (this.state.solution !== undefined && this.state.solution !== null) {
-            this.state.solution.history.forEach((value: number) => {
-                const carID = value >> 4;
-                const pos = value & 0xF;
+            for (let i = 0; i < this.state.solution.history.length; i++) {
+                const carID = this.state.solution.history[i] >> 4;
+                const pos = this.state.solution.history[i] & 0xF;
 
                 steps.push(
-                    <li>{ carID < 12 ? 'Car' : 'Truck' } #{(carID < 12 ? carID : carID - 12) + 1} to {pos + 1}</li>
+                    <li onClick={() => this.onClickStep(i)}>{ carID < 12 ? 'Car' : 'Truck' } #{(carID < 12 ? carID : carID - 12) + 1} to {pos + 1}</li>
                 );
-            });
+            }
         }
 
         return (
@@ -51,17 +67,75 @@ class Solution extends React.Component<any, SolutionState> {
                         <ol>{ steps }</ol>
                     }
                 </div>
+                <div>
+                    <Car fakeCar={true} truck={this.state.fakeCarTruck} colour={this.state.fakeCarColour} vertical={this.state.fakeCarVertical} pos={this.state.fakeCarPos}/>
+                </div>
             </section>
         );
     }
 
     private onClickComputeSolution(): void {
         const game = new Game();
+        const position = game.positions[0].cars;
         const solution = game.solve();
 
         this.setState({
             game: game,
+            start: position,
             solution: solution,
+        });
+    }
+
+    private onClickStep(i: number): void {
+        if (this.state.game === undefined || this.state.solution === null || this.state.solution === undefined || this.state.start === undefined)
+            return;
+
+        const state = this.state.solution.reverseHistory(i, this.state.start);
+
+        for (let i = 0; i < 16; i++) {
+            const car = Car.cars[i * 2 + 1];
+
+            if (car.boardPos.x === -1 || car.boardPos.y === -1)
+                continue;
+
+            const pos = state.cars.shiftRight(i * 3).and(0x7).toNumber();
+
+            if (car.state.vertical)
+                car.boardPos.y = Math.abs(pos - 5);
+            else
+                car.boardPos.x = pos;
+
+            car.updatePosition();
+        }
+
+        const fakeCar = Car.cars[state.dummyCar.id * 2 + 1];
+
+        this.setState({
+            game: this.state.game,
+            start: this.state.start,
+            solution: this.state.solution,
+            fakeCarTruck: state.dummyCar.id >= 12,
+            fakeCarColour: fakeCar.props.colour,
+            fakeCarVertical: fakeCar.state.vertical,
+            fakeCarPos: {
+                x: fakeCar.state.vertical ? fakeCar.boardPos.x : state.dummyCar.pos,
+                y: fakeCar.state.vertical ? Math.abs(state.dummyCar.pos - 5) : fakeCar.boardPos.y,
+            },
+        });
+    }
+
+    public carMoved(): void {
+        this.setState({
+            game: this.state.game,
+            start: this.state.start,
+            solution: this.state.solution,
+            fakeCarTruck: this.state.fakeCarTruck,
+            fakeCarColour: this.state.fakeCarColour,
+            fakeCarVertical: this.state.fakeCarVertical,
+            fakeCarPos: {
+                x: -1,
+                y: -1,
+            },
         });
     }
 }

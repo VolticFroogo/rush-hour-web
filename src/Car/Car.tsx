@@ -3,6 +3,7 @@ import './Car.css';
 import CarProps from './CarProps';
 import Draggable, { ControlPosition, DraggableData, DraggableEvent } from 'react-draggable';
 import Board from '../Board/Board';
+import Solution from '../Solution/Solution';
 
 class CarState {
     position: ControlPosition = {x: 0, y: 0};
@@ -21,7 +22,8 @@ class Car extends React.Component<CarProps, CarState> {
     constructor(props: CarProps) {
         super(props);
 
-        Car.cars.push(this);
+        if (this.props.fakeCar !== true)
+            Car.cars.push(this);
 
         this.state = {
             position: {
@@ -32,10 +34,7 @@ class Car extends React.Component<CarProps, CarState> {
         };
 
         this.myRef = React.createRef();
-        this.boardPos = {
-            x: -1,
-            y: -1,
-        };
+        this.boardPos = {x: -1, y: -1};
 
         window.addEventListener('resize', () => this.onWindowResize());
     }
@@ -43,20 +42,30 @@ class Car extends React.Component<CarProps, CarState> {
     render() {
         const carStyles = {
             width: this.props.truck ? "calc(11vw + 20px)" : "calc(7vw + 10px)",
-            backgroundColor: this.props.colour
+            backgroundColor: this.props.colour,
+            opacity: this.props.fakeCar ? "20%" : "100%",
         };
 
         return (
             <Draggable
                 position={this.state.position}
+                onStart={() => this.onDragStart()}
                 onStop={(e: DraggableEvent, data: DraggableData) => this.onDragStop(e, data)}
                 onDrag={(e: DraggableEvent, position: ControlPosition) => this.onDrag(e, position)}
+                disabled={this.props.fakeCar}
             >
                 <div>
-                    <div className={"Car" + (this.state.vertical ? " Vertical" : "")} style={carStyles} onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => this.onKeyDown(e)} tabIndex={0} ref={this.myRef}/>
+                    <div className={"Car" + (this.state.vertical ? " Vertical" : "")}
+                         style={carStyles} onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => this.onKeyDown(e)} tabIndex={0} ref={this.myRef}
+                         hidden={(this.props.fakeCar && (this.props.pos === undefined || this.props.pos.x === -1 || this.props.pos.y === -1))}/>
                 </div>
             </Draggable>
         );
+    }
+
+    componentDidUpdate(prevProps: Readonly<CarProps>, prevState: Readonly<CarState>, snapshot?: any) {
+        if (this.props.fakeCar && this.props !== prevProps)
+            this.updatePosition();
     }
 
     onDrag(e: DraggableEvent, position: ControlPosition) {
@@ -65,6 +74,10 @@ class Car extends React.Component<CarProps, CarState> {
             vertical: this.state.vertical,
         });
     };
+
+    onDragStart() {
+        Solution.instance.carMoved();
+    }
 
     onDragStop(e: DraggableEvent, data: DraggableData) {
         if (Board.instance.myRef.current === null)
@@ -170,6 +183,13 @@ class Car extends React.Component<CarProps, CarState> {
         if (this.myRef.current === null)
             return;
 
+        let vertical = this.state.vertical;
+
+        if (this.props.fakeCar && this.props.pos !== undefined && this.props.vertical !== undefined) {
+            this.boardPos = this.props.pos;
+            vertical = this.props.vertical;
+        }
+
         if (this.boardPos.x === -1 || this.boardPos.y === -1)
             return;
 
@@ -182,18 +202,18 @@ class Car extends React.Component<CarProps, CarState> {
 
         this.setState({
             position: {
-                x: this.state.vertical
+                x: vertical
                     ? (this.props.truck
                         ? tileRect.x - parentRect.x - vw * 3.5 - 5
                         : tileRect.x - parentRect.x - vw * 1.5)
                     : tileRect.x - parentRect.x + vw * 0.5 + 5,
-                y: this.state.vertical
+                y: vertical
                     ? (this.props.truck
                         ? tileRect.y - parentRect.y - vw * 3.5 - 10
                         : tileRect.y - parentRect.y - vw * 1.5 - 5)
                     : tileRect.y - parentRect.y + vw / 2,
             },
-            vertical: this.state.vertical,
+            vertical: vertical,
         });
     }
 }

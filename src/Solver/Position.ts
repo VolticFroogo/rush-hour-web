@@ -130,6 +130,20 @@ class Position {
 
         return true;
     }
+
+    public reverseHistory(to: number, cars: Long): {cars: Long, dummyCar: {id: number, pos: number}} {
+        for (let i = 0; i < to; i++) {
+            const carID = (this.history[i] >> 4) * 3;
+            const pos = this.history[i] & 0xF;
+
+            cars = cars.and(new Long(0x7).shiftLeft(carID).not()).or(new Long(pos).shiftLeft(carID));
+        }
+
+        return {cars: cars, dummyCar: {
+            id: this.history[to] >> 4,
+            pos: this.history[to] & 0xF,
+        }};
+    }
 }
 
 export default Position;
