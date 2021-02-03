@@ -13,6 +13,7 @@ class SolutionState {
     fakeCarColour: string = "#000000";
     fakeCarVertical: boolean = false;
     fakeCarPos?: {x: number, y: number};
+    active: number = -1;
 }
 
 class Solution extends React.Component<any, SolutionState> {
@@ -31,6 +32,7 @@ class Solution extends React.Component<any, SolutionState> {
             fakeCarColour: "#000000",
             fakeCarVertical: false,
             fakeCarPos: {x: -1, y: -1},
+            active: -1,
         }
     }
 
@@ -41,9 +43,10 @@ class Solution extends React.Component<any, SolutionState> {
             for (let i = 0; i < this.state.solution.history.length; i++) {
                 const carID = this.state.solution.history[i] >> 4;
                 const pos = this.state.solution.history[i] & 0xF;
+                const colour = Car.cars[carID * 2 + 1].props.colour;
 
                 steps.push(
-                    <li onClick={() => this.onClickStep(i)}>{ carID < 12 ? 'Car' : 'Truck' } #{(carID < 12 ? carID : carID - 12) + 1} to {pos + 1}</li>
+                    <li className={(i === this.state.active ? "Active" : "")} onClick={() => this.onClickStep(i)}><span style={{color: colour}}>{ carID < 12 ? 'Car' : 'Truck' } #{(carID < 12 ? carID : carID - 12) + 1}</span> to {pos + 1}</li>
                 );
             }
         }
@@ -121,6 +124,7 @@ class Solution extends React.Component<any, SolutionState> {
                 x: fakeCar.state.vertical ? fakeCar.boardPos.x : state.dummyCar.pos,
                 y: fakeCar.state.vertical ? Math.abs(state.dummyCar.pos - 5) : fakeCar.boardPos.y,
             },
+            active: i,
         });
     }
 
@@ -136,6 +140,7 @@ class Solution extends React.Component<any, SolutionState> {
                 x: -1,
                 y: -1,
             },
+            active: -1,
         });
     }
 }

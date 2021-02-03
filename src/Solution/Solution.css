@@ -43,4 +43,18 @@
 
 #Solution li {
     font-size: 14px;
+    color: var(--text-link);
+    margin: 5px 0;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 100ms;
+    width: fit-content;
+}
+
+#Solution li:hover {
+    color: var(--text-link-hover);
+}
+
+#Solution li.Active {
+    color: var(--text-normal);
 }
