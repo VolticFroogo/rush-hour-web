@@ -27,7 +27,7 @@ class Solution extends React.Component<any, SolutionState> {
                 const pos = value & 0xF;
 
                 steps.push(
-                    <li>{ carID < 12 ? 'Car' : 'Truck' } #{carID < 12 ? carID : carID - 12 + 1} to {pos + 1}</li>
+                    <li>{ carID < 12 ? 'Car' : 'Truck' } #{(carID < 12 ? carID : carID - 12) + 1} to {pos + 1}</li>
                 );
             });
         }
