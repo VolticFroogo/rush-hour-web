@@ -43,7 +43,7 @@ class Solution extends React.Component<any, SolutionState> {
             for (let i = 0; i < this.state.solution.history.length; i++) {
                 const carID = this.state.solution.history[i] >> 4;
                 const pos = this.state.solution.history[i] & 0xF;
-                const colour = Car.cars[carID * 2 + 1].props.colour;
+                const colour = Car.cars[carID].props.colour;
 
                 steps.push(
                     <li className={(i === this.state.active ? "Active" : "")} onClick={() => this.onClickStep(i)}><span style={{color: colour}}>{ carID < 12 ? 'Car' : 'Truck' } #{(carID < 12 ? carID : carID - 12) + 1}</span> to {pos + 1}</li>
@@ -96,7 +96,7 @@ class Solution extends React.Component<any, SolutionState> {
         const state = this.state.solution.reverseHistory(i, this.state.start);
 
         for (let i = 0; i < 16; i++) {
-            const car = Car.cars[i * 2 + 1];
+            const car = Car.cars[i];
 
             if (car.boardPos.x === -1 || car.boardPos.y === -1)
                 continue;
@@ -111,7 +111,7 @@ class Solution extends React.Component<any, SolutionState> {
             car.updatePosition();
         }
 
-        const fakeCar = Car.cars[state.dummyCar.id * 2 + 1];
+        const fakeCar = Car.cars[state.dummyCar.id];
 
         this.setState({
             game: this.state.game,

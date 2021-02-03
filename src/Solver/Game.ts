@@ -12,7 +12,7 @@ class Game {
         this.carOrientations = new Uint8Array(16);
 
         for (let i = 0; i < 16; i++) {
-            const car = Car.cars[i * 2 + 1];
+            const car = Car.cars[i];
 
             if (car.boardPos.x === -1 || car.boardPos.y === -1) {
                 cars = cars.or(new Long(0x7).shiftLeft(i * 3));
