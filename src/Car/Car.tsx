@@ -3,7 +3,6 @@ import './Car.css';
 import CarProps from './CarProps';
 import Draggable, { ControlPosition, DraggableData, DraggableEvent } from 'react-draggable';
 import Board from '../Board/Board';
-import Game from '../Solver/Game';
 
 class CarState {
     position: ControlPosition = {x: 0, y: 0};
@@ -97,10 +96,6 @@ class Car extends React.Component<CarProps, CarState> {
         } else {
             this.resetPosition();
         }
-
-        const game = new Game();
-        console.log(game);
-        console.log(game.solve());
     }
 
     onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {

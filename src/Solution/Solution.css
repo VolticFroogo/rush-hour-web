@@ -1,3 +1,46 @@
 #Solution {
-    min-width: 200px;
+    width: 400px;
+}
+
+#Solution .ButtonWrapper {
+    text-align: center;
+    margin: 0 0 2vw 0;
+}
+
+#Solution .SolveButton {
+    font-family: inherit;
+
+    background-color: #FFFFFF10;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 25px;
+    color: #D2D8DE;
+
+    transition: color 100ms, background-color 100ms;
+    cursor: pointer;
+    outline: none;
+}
+
+#Solution .SolveButton:hover {
+    color: #E7EDEE;
+    background-color: #FFFFFF18;
+}
+
+#Solution .Steps {
+    margin: 2vw 0 0 0;
+}
+
+#Solution .StepsTitle {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 2vw;
+}
+
+#Solution .Steps .Text {
+    text-align: center;
+    font-size: 14px;
+}
+
+#Solution li {
+    font-size: 14px;
 }

@@ -23,3 +23,10 @@ section .Title {
     transform: translate(30px, calc(-2vw - 12px));
     padding: 0 10px;
 }
+
+section .Divider {
+    transform: translateX(-2vw);
+    width: calc(100% + 4vw);
+    height: 1px;
+    background-color: var(--tile-colour);
+}
