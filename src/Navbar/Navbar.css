@@ -12,3 +12,8 @@
 .Navbar .Credit {
     width: fit-content;
 }
+
+.Navbar .Source {
+    float: right;
+    transform: translateY(-19px);
+}
