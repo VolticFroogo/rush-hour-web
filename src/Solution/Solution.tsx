@@ -39,14 +39,15 @@ class Solution extends React.Component<any, SolutionState> {
     public render(): JSX.Element {
         let steps: JSX.Element[] = [];
 
-        if (this.state.solution !== undefined && this.state.solution !== null) {
+        if (this.state.start !== undefined && this.state.solution !== undefined && this.state.solution !== null) {
             for (let i = 0; i < this.state.solution.history.length; i++) {
                 const carID = this.state.solution.history[i] >> 4;
                 const pos = this.state.solution.history[i] & 0xF;
                 const colour = Car.cars[carID].props.colour;
+                const key = this.state.start.add(new Long(i).shiftLeft(48)).toString(36);
 
                 steps.push(
-                    <li className={(i === this.state.active ? "Active" : "")} onClick={() => this.onClickStep(i)}><span style={{color: colour}}>{ carID < 12 ? 'Car' : 'Truck' } #{(carID < 12 ? carID : carID - 12) + 1}</span> to {pos + 1}</li>
+                    <li key={key} className={(i === this.state.active ? "Active" : "")} onClick={() => this.onClickStep(i)}><span style={{color: colour}}>{ carID < 12 ? 'Car' : 'Truck' } #{(carID < 12 ? carID : carID - 12) + 1}</span> to {pos + 1}</li>
                 );
             }
         }
