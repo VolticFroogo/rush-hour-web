@@ -179,11 +179,12 @@ class Car extends React.Component<CarProps, CarState> {
         this.updatePosition();
     }
 
-    updatePosition() {
+    updatePosition(vertical?: boolean) {
         if (this.myRef.current === null)
             return;
 
-        let vertical = this.state.vertical;
+        if (vertical === undefined)
+            vertical = this.state.vertical;
 
         if (this.props.fakeCar && this.props.pos !== undefined && this.props.vertical !== undefined) {
             this.boardPos = this.props.pos;

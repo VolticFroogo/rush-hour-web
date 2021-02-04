@@ -119,18 +119,25 @@ class Solution extends React.Component<any, SolutionState> {
 
         for (let i = 0; i < 16; i++) {
             const car = Car.cars[i];
-
-            if (car.boardPos.x === -1 || car.boardPos.y === -1)
-                continue;
+            const carOrientation = this.state.game.carOrientations[i];
 
             const pos = state.cars.shiftRight(i * 3).and(0x7).toNumber();
 
-            if (car.state.vertical)
-                car.boardPos.y = Math.abs(pos - 5);
-            else
-                car.boardPos.x = pos;
+            if (pos >= 6)
+                continue;
 
-            car.updatePosition();
+            const vertical = (carOrientation & 0x8) !== 0;
+
+            // If the car is vertical:
+            if (vertical) {
+                car.boardPos.x = carOrientation & 0x7;
+                car.boardPos.y = Math.abs(pos - 5);
+            } else {
+                car.boardPos.x = pos;
+                car.boardPos.y = Math.abs((carOrientation & 0x7) - 5);
+            }
+
+            car.updatePosition(vertical);
         }
 
         const fakeCar = Car.cars[state.dummyCar.id];
