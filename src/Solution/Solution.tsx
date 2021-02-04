@@ -67,7 +67,13 @@ class Solution extends React.Component<any, SolutionState> {
                         <div className="Text">Impossible game...</div>
                     }
                     { steps.length !== 0 &&
-                        <ol>{ steps }</ol>
+                        <div>
+                            <ol>{ steps }</ol>
+                            <div className="StepButtons">
+                                <button disabled={this.state.active <= 0} onClick={() => this.onClickStep(this.state.active - 1)}>Previous Step</button>
+                                <button disabled={this.state.active >= (this.state.solution as Position).history.length - 1} onClick={() => this.onClickStep(this.state.active + 1)}>Next Step</button>
+                            </div>
+                        </div>
                     }
                 </div>
                 <div>
@@ -82,10 +88,25 @@ class Solution extends React.Component<any, SolutionState> {
         const position = game.positions[0].cars;
         const solution = game.solve();
 
+        // Add move red car to the exit step.
+        if (solution !== null) {
+            const history = new Uint8Array(solution.history.length + 1);
+            for (let i = 0; i < solution.history.length; i++)
+                history[i] = solution.history[i];
+
+            history[solution.history.length] = 0x4;
+            solution.history = history;
+        }
+
         this.setState({
             game: game,
             start: position,
             solution: solution,
+            fakeCarTruck: false,
+            fakeCarColour: "#000000",
+            fakeCarVertical: false,
+            fakeCarPos: {x: -1, y: -1},
+            active: -1,
         });
     }
 
@@ -133,13 +154,10 @@ class Solution extends React.Component<any, SolutionState> {
             game: this.state.game,
             start: this.state.start,
             solution: this.state.solution,
-            fakeCarTruck: this.state.fakeCarTruck,
-            fakeCarColour: this.state.fakeCarColour,
-            fakeCarVertical: this.state.fakeCarVertical,
-            fakeCarPos: {
-                x: -1,
-                y: -1,
-            },
+            fakeCarTruck: false,
+            fakeCarColour: "#000000",
+            fakeCarVertical: false,
+            fakeCarPos: {x: -1, y: -1},
             active: -1,
         });
     }

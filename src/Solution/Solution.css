@@ -7,7 +7,7 @@
     margin: 0 0 2vw 0;
 }
 
-#Solution .SolveButton {
+#Solution button {
     font-family: inherit;
 
     background-color: #FFFFFF10;
@@ -21,9 +21,15 @@
     outline: none;
 }
 
-#Solution .SolveButton:hover {
+#Solution button:hover {
     color: #E7EDEE;
     background-color: #FFFFFF18;
+}
+
+#Solution button:disabled {
+    color: #6E7272;
+    background-color: #FFFFFF05;
+    cursor: not-allowed;
 }
 
 #Solution .Steps {
@@ -57,4 +63,17 @@
 
 #Solution li.Active {
     color: var(--text-normal);
+}
+
+#Solution .StepButtons {
+    margin-top: 2vw;
+    display: flex;
+}
+
+#Solution .StepButtons button {
+    flex: 1;
+}
+
+#Solution .StepButtons button:first-child {
+    margin-right: 10px;
 }
