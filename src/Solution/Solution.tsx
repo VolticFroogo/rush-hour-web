@@ -107,7 +107,7 @@ class Solution extends React.Component<any, SolutionState> {
             fakeCarVertical: false,
             fakeCarPos: {x: -1, y: -1},
             active: -1,
-        });
+        }, () => this.onClickStep(0));
     }
 
     private onClickStep(i: number): void {
