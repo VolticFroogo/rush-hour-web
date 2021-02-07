@@ -1,10 +1,20 @@
 #Solution {
     width: 400px;
+    padding: 0;
+}
+
+#Solution .Title {
+    transform: translate(30px, -12px);
+}
+
+#Solution .Divider {
+    width: 100%;
+    transform: none;
 }
 
 #Solution .ButtonWrapper {
     text-align: center;
-    margin: 0 0 2vw 0;
+    margin: 2vw 0 2vw 0;
 }
 
 #Solution button {
@@ -45,6 +55,13 @@
 #Solution .Steps .Text {
     text-align: center;
     font-size: 14px;
+    margin-bottom: 2vw;
+}
+
+#Solution ol {
+    max-height: 40vh;
+    overflow: auto;
+    margin-left: 2vw;
 }
 
 #Solution li {
@@ -72,8 +89,13 @@
 
 #Solution .StepButtons button {
     flex: 1;
+    border-radius: 0;
 }
 
 #Solution .StepButtons button:first-child {
-    margin-right: 10px;
+    border-bottom-left-radius: 3px;
+}
+
+#Solution .StepButtons button:last-child {
+    border-bottom-right-radius: 3px;
 }
