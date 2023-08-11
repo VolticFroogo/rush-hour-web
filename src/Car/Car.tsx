@@ -16,6 +16,7 @@ class Car extends React.Component<CarProps, CarState> {
         x: number,
         y: number,
     };
+    isDragged = false;
 
     static cars: Car[] = [];
 
@@ -77,9 +78,12 @@ class Car extends React.Component<CarProps, CarState> {
 
     onDragStart() {
         Solution.instance.carMoved();
+        this.isDragged = true;
     }
 
     onDragStop(e: DraggableEvent, data: DraggableData) {
+        this.isDragged = false;
+
         if (Board.instance.myRef.current === null)
             return;
 
@@ -112,6 +116,9 @@ class Car extends React.Component<CarProps, CarState> {
     }
 
     onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+        if (!this.isDragged)
+            return;
+
         this.setState({
             position: this.state.position,
             vertical: !this.state.vertical,

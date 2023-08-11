@@ -30,6 +30,11 @@ function CarPool() {
                 <CarSlot colour="#02D2BE" truck={true}/>
                 <CarSlot colour="#FBA70D" truck={true}/>
             </div>
+            <p className="Guide">
+                Press any button while holding
+                <br/>
+                a car to rotate
+            </p>
         </section>
     );
 }
