@@ -112,9 +112,6 @@ class Car extends React.Component<CarProps, CarState> {
     }
 
     onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
-        if (e.key !== "r" && e.key !== "R")
-            return;
-
         this.setState({
             position: this.state.position,
             vertical: !this.state.vertical,
