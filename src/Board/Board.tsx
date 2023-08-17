@@ -16,27 +16,31 @@ class Board extends React.Component {
 
     render() {
         return (
-            <section id="Board" ref={this.myRef}>
+            <section id="Board" ref={ this.myRef }>
                 <div className="Title">Board</div>
-                <div ref={this.columnsRef}>
+                <a className="Title Right" target="_blank" rel="noreferrer"
+                   href="https://www.amazon.co.uk/s?k=rush+hour+puzzle+game&_encoding=UTF8&tag=froogo09-21&linkCode=ur2&linkId=d83c5a7b9fd1c68a04ace66acfbfde2a&camp=1634&creative=6738">
+                    Get your own Rush Hour!
+                </a>
+                <div ref={ this.columnsRef }>
                     <Column/>
                     <Column/>
                     <Column/>
                     <Column/>
                     <Column/>
-                    <Column exit={true}/>
+                    <Column exit={ true }/>
                 </div>
             </section>
         );
     }
 }
 
-function Column(props: {exit?: boolean}) {
+function Column(props: { exit?: boolean }) {
     return (
         <div className="Column">
             <Tile/>
             <Tile/>
-            <Tile exit={props.exit}/>
+            <Tile exit={ props.exit }/>
             <Tile/>
             <Tile/>
             <Tile/>
@@ -44,13 +48,14 @@ function Column(props: {exit?: boolean}) {
     );
 }
 
-function Tile(props: {exit?: boolean}) {
+function Tile(props: { exit?: boolean }) {
     return (
         <div>
             <div className="Tile">
                 { props.exit &&
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-right"
-                         width="3vw" height="3vw" viewBox="0 0 24 24" strokeWidth="1.5" stroke="var(--background)" fill="none"
+                         width="3vw" height="3vw" viewBox="0 0 24 24" strokeWidth="1.5" stroke="var(--background)"
+                         fill="none"
                          strokeLinecap="round" strokeLinejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <line x1="5" y1="12" x2="19" y2="12"/>

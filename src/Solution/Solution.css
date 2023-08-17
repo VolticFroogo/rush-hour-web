@@ -3,10 +3,6 @@
     padding: 0;
 }
 
-#Solution .Title {
-    transform: translate(30px, -12px);
-}
-
 #Solution .Divider {
     width: 100%;
     transform: none;
