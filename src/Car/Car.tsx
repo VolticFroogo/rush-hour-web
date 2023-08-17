@@ -119,6 +119,8 @@ class Car extends React.Component<CarProps, CarState> {
         if (!this.isDragged)
             return;
 
+        e.preventDefault();
+
         this.setState({
             position: this.state.position,
             vertical: !this.state.vertical,
