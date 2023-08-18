@@ -17,11 +17,13 @@ class Board extends React.Component {
     render() {
         return (
             <section id="Board" ref={ this.myRef }>
-                <div className="Title">Board</div>
-                <a className="Title Right" target="_blank" rel="noreferrer"
-                   href="https://www.amazon.co.uk/s?k=rush+hour+puzzle+game&_encoding=UTF8&tag=froogo09-21&linkCode=ur2&linkId=d83c5a7b9fd1c68a04ace66acfbfde2a&camp=1634&creative=6738">
-                    Get your own Rush Hour!
-                </a>
+                <div className="Title">
+                    Board -
+                    <a className="Title Right" target="_blank" rel="noreferrer"
+                       href="https://www.amazon.co.uk/s?k=rush+hour+puzzle+game&_encoding=UTF8&tag=froogo09-21&linkCode=ur2&linkId=d83c5a7b9fd1c68a04ace66acfbfde2a&camp=1634&creative=6738">
+                        Get your own Rush Hour!
+                    </a>
+                </div>
                 <div ref={ this.columnsRef }>
                     <Column/>
                     <Column/>

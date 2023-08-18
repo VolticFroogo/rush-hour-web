@@ -6,7 +6,6 @@ h1.Title {
 section {
     float: left;
     width: fit-content;
-    position: relative;
 
     border-style: solid;
     border-width: 1px;
@@ -18,17 +17,11 @@ section {
 }
 
 section .Title {
-    position: absolute;
+    width: fit-content;
     background-color: var(--background);
     font-size: 20px;
-    top: -12px;
-    left: 50px;
+    transform: translate(30px, calc(-2vw - 12px));
     padding: 0 10px;
-}
-
-section .Title.Right {
-    right: 50px;
-    left: auto;
 }
 
 section .Divider {
