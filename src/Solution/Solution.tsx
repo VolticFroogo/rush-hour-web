@@ -99,6 +99,13 @@ class Solution extends React.Component<any, SolutionState> {
             solution.history = history;
         }
 
+        window.umami?.track(
+            'solved',
+            {
+                solutionLength: solution?.history.length ?? -1
+            }
+        );
+
         this.setState({
             game: game,
             start: position,
